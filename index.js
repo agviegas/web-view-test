@@ -25,6 +25,8 @@ import CameraControls from 'camera-controls';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+import Stats from 'stats.js/src/Stats'
+
 const subsetOfTHREE = {
   MOUSE,
   Vector2,
@@ -84,10 +86,20 @@ const cameraControls = new CameraControls(camera, canvas);
 
 cameraControls.setLookAt(15, 15, 15, 0, 10, 0);
 
+const stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
+
 function animate() {
+
+  stats.begin();
+
   const delta = clock.getDelta();
 	cameraControls.update( delta );
 	renderer.render( scene, camera );
+
+  stats.end();
+
   requestAnimationFrame(animate);
 }
 
